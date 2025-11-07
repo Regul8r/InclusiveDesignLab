@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, CheckCircle2, XCircle, Award } from "lucide-react";
-import { awardBadge, awardXp, hasClaimedToday, updateLastAward, getTodayDateString } from "@/lib/xp";
+import { ArrowLeft, CheckCircle2, XCircle } from "lucide-react";
+import { awardXp, hasClaimedToday, updateLastAward, getTodayDateString } from "@/lib/xp";
 import { toast } from "@/hooks/use-toast";
 
 const TapTargetTuner = () => {
@@ -40,25 +40,19 @@ const TapTargetTuner = () => {
     }
   };
 
-  const handleClaimBadge = () => {
+  const handleClaimReward = () => {
     if (alreadyClaimed) {
       return; // Already shown in banner
     }
 
-    // Award the badge and XP
-    awardBadge({ 
-      id: "tap-target-ace", 
-      name: "Tap-Target Ace", 
-      xp: 40,
-      description: "You sized targets to 44×44+ and passed the tap test."
-    });
+    // Award XP
     awardXp(40);
     updateLastAward('tap-target-tuner', getTodayDateString());
     setAlreadyClaimed(true);
 
     toast({
-      title: "Badge Earned! 🎉",
-      description: "Tap-Target Ace +40 XP",
+      title: "Success! 🎉",
+      description: "+40 XP earned",
     });
   };
 
@@ -194,12 +188,11 @@ const TapTargetTuner = () => {
                         </p>
                       </div>
                       <Button 
-                        onClick={handleClaimBadge}
+                        onClick={handleClaimReward}
                         className="w-full"
                         size="lg"
                       >
-                        <Award className="mr-2" />
-                        Claim Badge (+40 XP)
+                        Claim Reward (+40 XP)
                       </Button>
                     </>
                   )}

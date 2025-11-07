@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
-import { awardXp, awardBadge, updateLastAward, hasClaimedToday, getTodayDateString } from "@/lib/xp";
+import { awardXp, updateLastAward, hasClaimedToday, getTodayDateString } from "@/lib/xp";
 import { toast } from "sonner";
 
 // WCAG relative luminance calculation
@@ -90,21 +90,13 @@ const ContrastQuest = () => {
       return;
     }
 
-    // Award badge
-    awardBadge({
-      id: "contrast-champ",
-      name: "Contrast Champ",
-      description: "Passed WCAG AA contrast standards",
-      xp: 50,
-    });
-
     // Calculate XP
     let totalXp = 50;
-    let message = "You earned 50 XP and the Contrast Champ badge!";
+    let message = "You earned 50 XP!";
     
     if (passesAAA) {
       totalXp += 10;
-      message = "🌟 Amazing! AAA standard! You earned 60 XP and the Contrast Champ badge!";
+      message = "🌟 Amazing! AAA standard! You earned 60 XP!";
     }
 
     // Award XP
@@ -316,9 +308,9 @@ const ContrastQuest = () => {
                       disabled={alreadyClaimed}
                       onClick={handleClaimRewards}
                       className="w-full"
-                      aria-label={alreadyClaimed ? "Rewards already claimed today" : "Claim badge and XP"}
+                      aria-label={alreadyClaimed ? "Rewards already claimed today" : "Claim XP"}
                     >
-                      {alreadyClaimed ? "Claimed for Today" : "Claim Badge & XP"}
+                      {alreadyClaimed ? "Claimed for Today" : "Claim Reward"}
                     </Button>
                   </div>
                 </CardContent>

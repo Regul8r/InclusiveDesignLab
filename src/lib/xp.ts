@@ -1,14 +1,5 @@
-export type Badge = {
-  id: string;
-  name: string;
-  description?: string;
-  earnedAt?: string;
-  xp?: number;
-};
-
 export type Progress = {
   xp: number;
-  badges: Badge[];
   lastAwards?: Record<string, string>; // per-quest date stamps
 };
 
@@ -28,17 +19,17 @@ const isLocalStorageAvailable = (): boolean => {
 
 export const getProgress = (): Progress => {
   if (!isLocalStorageAvailable()) {
-    return { xp: 0, badges: [] };
+    return { xp: 0 };
   }
 
   try {
     const stored = localStorage.getItem(KEY);
     if (!stored) {
-      return { xp: 0, badges: [] };
+      return { xp: 0 };
     }
     return JSON.parse(stored) as Progress;
   } catch {
-    return { xp: 0, badges: [] };
+    return { xp: 0 };
   }
 };
 
@@ -64,29 +55,6 @@ export const awardXp = (amount: number): Progress => {
   return updated;
 };
 
-export const awardBadge = (badge: Badge): Progress => {
-  const current = getProgress();
-  
-  // Check if badge already earned
-  const alreadyEarned = current.badges.some((b) => b.id === badge.id);
-  if (alreadyEarned) {
-    return current;
-  }
-
-  // Add earned timestamp if not present
-  const badgeWithTimestamp = {
-    ...badge,
-    earnedAt: badge.earnedAt || new Date().toISOString(),
-  };
-
-  const updated = {
-    ...current,
-    badges: [...current.badges, badgeWithTimestamp],
-  };
-  
-  saveProgress(updated);
-  return updated;
-};
 
 export const updateLastAward = (questId: string, date: string): Progress => {
   const current = getProgress();

@@ -4,11 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getProgress, getLevel, isLocalStorageAvailable } from "@/lib/xp";
 import ProgressBar from "@/components/ProgressBar";
-import BadgeShelf from "@/components/BadgeShelf";
-import { Award } from "lucide-react";
 
 const Arcade = () => {
-  const [progress, setProgress] = useState({ xp: 0, badges: [] });
+  const [progress, setProgress] = useState({ xp: 0 });
   const [storageAvailable, setStorageAvailable] = useState(true);
 
   useEffect(() => {
@@ -55,10 +53,6 @@ const Arcade = () => {
                 <div className="text-3xl font-bold text-primary">Level {level}</div>
                 <div className="text-sm text-muted-foreground">{progress.xp} XP</div>
               </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-secondary">{progress.badges.length}</div>
-                <div className="text-sm text-muted-foreground">Badges</div>
-              </div>
             </div>
 
             {/* Progress Bar to Next Level */}
@@ -67,7 +61,7 @@ const Arcade = () => {
             </div>
 
             <p className="text-xs text-center text-muted-foreground">
-              Complete quests to unlock badges and earn XP!
+              Complete quests to earn XP and level up!
             </p>
 
             {/* Storage Warning */}
@@ -77,12 +71,6 @@ const Arcade = () => {
               </p>
             )}
           </div>
-        </section>
-
-        {/* Badges Section */}
-        <section aria-label="Your badges" className="mb-8">
-          <h2 className="text-2xl font-semibold mb-6 text-foreground">Badges</h2>
-          <BadgeShelf badges={progress.badges} />
         </section>
 
         {/* Game Cards */}
@@ -110,13 +98,7 @@ const Arcade = () => {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-md transition-shadow relative">
-              {progress.badges.some(b => b.id === 'tap-target-ace') && (
-                <div className="absolute top-3 right-3 bg-accent text-accent-foreground px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
-                  <Award className="w-3 h-3" aria-hidden="true" />
-                  Earned
-                </div>
-              )}
+            <Card className="hover:shadow-md transition-shadow">
               <CardHeader>
                 <CardTitle className="text-xl">Tap Target Tuner</CardTitle>
                 <CardDescription>
@@ -136,13 +118,7 @@ const Arcade = () => {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-md transition-shadow relative">
-              {progress.badges.some(b => b.id === 'flow-pilot') && (
-                <div className="absolute top-3 right-3 bg-accent text-accent-foreground px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
-                  <Award className="w-3 h-3" aria-hidden="true" />
-                  Earned
-                </div>
-              )}
+            <Card className="hover:shadow-md transition-shadow">
               <CardHeader>
                 <CardTitle className="text-xl">Story Flow Shuffle</CardTitle>
                 <CardDescription>

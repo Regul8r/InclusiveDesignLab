@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Home, Search, List, FileText, ShoppingCart, CheckCircle, ChevronLeft, ChevronRight, AlertCircle, Award } from "lucide-react";
+import { ArrowLeft, Home, Search, List, FileText, ShoppingCart, CheckCircle, ChevronLeft, ChevronRight, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { awardBadge, awardXp, hasClaimedToday, updateLastAward, getTodayDateString } from "@/lib/xp";
+import { awardXp, hasClaimedToday, updateLastAward, getTodayDateString } from "@/lib/xp";
 import { useToast } from "@/hooks/use-toast";
 
 type Screen = {
@@ -107,8 +107,8 @@ const StoryFlowShuffle = () => {
     }
   };
 
-  // Claim badge handler
-  const handleClaimBadge = () => {
+  // Claim reward handler
+  const handleClaimReward = () => {
     if (alreadyClaimed) {
       toast({
         title: "Practice Mode",
@@ -125,12 +125,6 @@ const StoryFlowShuffle = () => {
       bonusAwarded = true;
     }
 
-    awardBadge({
-      id: "flow-pilot",
-      name: "Flow Pilot",
-      xp: totalXp,
-      description: "You arranged a clean, user-friendly task flow.",
-    });
     awardXp(totalXp);
     updateLastAward("story-flow-shuffle", getTodayDateString());
 
@@ -138,10 +132,10 @@ const StoryFlowShuffle = () => {
     setCanClaim(false);
 
     toast({
-      title: "Badge Earned! 🎉",
+      title: "Success! 🎉",
       description: bonusAwarded 
-        ? `Flow Pilot +${totalXp} XP (including +10 bonus for solving quickly!)`
-        : `Flow Pilot +${totalXp} XP`,
+        ? `+${totalXp} XP (including +10 bonus for solving quickly!)`
+        : `+${totalXp} XP earned`,
     });
   };
 
@@ -249,15 +243,14 @@ const StoryFlowShuffle = () => {
                   </Alert>
                 )}
 
-                {/* Claim Badge Button */}
+                {/* Claim Reward Button */}
                 {canClaim && !alreadyClaimed && (
                   <div className="text-center">
-                    <Button size="lg" onClick={handleClaimBadge} className="gap-2">
-                      <Award className="w-5 h-5" />
-                      Claim Badge
+                    <Button size="lg" onClick={handleClaimReward}>
+                      Claim Reward
                     </Button>
                     <p className="text-xs text-muted-foreground mt-2">
-                      Complete the flow to earn your badge!
+                      Complete the flow to earn XP!
                     </p>
                   </div>
                 )}
