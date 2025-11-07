@@ -2,8 +2,9 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { getProgress, getLevel, isLocalStorageAvailable } from "@/lib/xp";
+import ProgressBar from "@/components/ProgressBar";
+import BadgeShelf from "@/components/BadgeShelf";
 
 const Arcade = () => {
   const [progress, setProgress] = useState({ xp: 0, badges: [] });
@@ -27,8 +28,6 @@ const Arcade = () => {
   }, []);
 
   const level = getLevel(progress.xp);
-  const xpInCurrentLevel = progress.xp % 100;
-  const progressPercentage = xpInCurrentLevel;
 
   return (
     <div className="min-h-screen bg-background">
@@ -62,13 +61,8 @@ const Arcade = () => {
             </div>
 
             {/* Progress Bar to Next Level */}
-            <div className="max-w-md mx-auto space-y-2">
-              <div className="flex justify-between text-xs text-muted-foreground">
-                <span>Level {level}</span>
-                <span>{xpInCurrentLevel}/100 XP</span>
-                <span>Level {level + 1}</span>
-              </div>
-              <Progress value={progressPercentage} className="h-2" />
+            <div className="max-w-md mx-auto">
+              <ProgressBar xp={progress.xp} />
             </div>
 
             <p className="text-xs text-center text-muted-foreground">
@@ -82,6 +76,12 @@ const Arcade = () => {
               </p>
             )}
           </div>
+        </section>
+
+        {/* Badges Section */}
+        <section aria-label="Your badges" className="mb-8">
+          <h2 className="text-2xl font-semibold mb-6 text-foreground">Badges</h2>
+          <BadgeShelf badges={progress.badges} />
         </section>
 
         {/* Game Cards */}
