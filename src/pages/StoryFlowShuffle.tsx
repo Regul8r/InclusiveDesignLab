@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Home, Search, List, FileText, ShoppingCart, CheckCircle, ChevronLeft, ChevronRight, AlertCircle } from "lucide-react";
+import { ArrowLeft, Home, Search, List, FileText, ShoppingCart, CheckCircle, ChevronLeft, ChevronRight, AlertCircle, Award } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { awardBadge, awardXp, hasClaimedToday, updateLastAward, getTodayDateString } from "@/lib/xp";
+import { useToast } from "@/hooks/use-toast";
 
 type Screen = {
   id: string;
@@ -37,6 +39,15 @@ const StoryFlowShuffle = () => {
   const [checked, setChecked] = useState(false);
   const [isPassing, setIsPassing] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
+  const [checkCount, setCheckCount] = useState(0);
+  const [canClaim, setCanClaim] = useState(false);
+  const [alreadyClaimed, setAlreadyClaimed] = useState(false);
+
+  const { toast } = useToast();
+
+  useEffect(() => {
+    setAlreadyClaimed(hasClaimedToday("story-flow-shuffle"));
+  }, []);
 
   // Drag handlers
   const handleDragStart = (index: number) => {
@@ -88,6 +99,50 @@ const StoryFlowShuffle = () => {
     setIsPassing(allCorrect);
     setErrors(newErrors);
     setChecked(true);
+    setCheckCount(prev => prev + 1);
+
+    // Enable claim if passing and not already claimed
+    if (allCorrect && !alreadyClaimed) {
+      setCanClaim(true);
+    }
+  };
+
+  // Claim badge handler
+  const handleClaimBadge = () => {
+    if (alreadyClaimed) {
+      toast({
+        title: "Practice Mode",
+        description: "XP already claimed today. Come back tomorrow!",
+      });
+      return;
+    }
+
+    // Calculate bonus XP: if solved with ≤1 mistake on first check
+    let totalXp = 50;
+    let bonusAwarded = false;
+    if (checkCount === 1 && errors.length <= 1) {
+      totalXp += 10;
+      bonusAwarded = true;
+    }
+
+    awardBadge({
+      id: "flow-pilot",
+      name: "Flow Pilot",
+      xp: totalXp,
+      description: "You arranged a clean, user-friendly task flow.",
+    });
+    awardXp(totalXp);
+    updateLastAward("story-flow-shuffle", getTodayDateString());
+
+    setAlreadyClaimed(true);
+    setCanClaim(false);
+
+    toast({
+      title: "Badge Earned! 🎉",
+      description: bonusAwarded 
+        ? `Flow Pilot +${totalXp} XP (including +10 bonus for solving quickly!)`
+        : `Flow Pilot +${totalXp} XP`,
+    });
   };
 
   return (
@@ -172,15 +227,50 @@ const StoryFlowShuffle = () => {
         {checked && (
           <section aria-live="polite" className="mb-6">
             {isPassing ? (
-              <Alert className="bg-green-50 border-green-200 dark:bg-green-950 dark:border-green-800">
-                <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
-                <AlertTitle className="text-green-800 dark:text-green-200">Perfect! Flow Completed</AlertTitle>
-                <AlertDescription className="text-green-700 dark:text-green-300">
-                  This sequence makes sense: Users start at <strong>Home</strong>, use <strong>Search</strong> to find items, 
-                  view <strong>Results</strong>, select a <strong>Detail</strong> page, <strong>Add to Cart</strong>, 
-                  and finally <strong>Confirm</strong> their purchase. Well done!
-                </AlertDescription>
-              </Alert>
+              <div className="space-y-4">
+                <Alert className="bg-green-50 border-green-200 dark:bg-green-950 dark:border-green-800">
+                  <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
+                  <AlertTitle className="text-green-800 dark:text-green-200">Perfect! Flow Completed</AlertTitle>
+                  <AlertDescription className="text-green-700 dark:text-green-300">
+                    This sequence makes sense: Users start at <strong>Home</strong>, use <strong>Search</strong> to find items, 
+                    view <strong>Results</strong>, select a <strong>Detail</strong> page, <strong>Add to Cart</strong>, 
+                    and finally <strong>Confirm</strong> their purchase. Well done!
+                  </AlertDescription>
+                </Alert>
+
+                {/* Practice Mode Banner */}
+                {alreadyClaimed && (
+                  <Alert className="bg-blue-50 border-blue-200 dark:bg-blue-950 dark:border-blue-800">
+                    <AlertCircle className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                    <AlertTitle className="text-blue-800 dark:text-blue-200">Practice Mode</AlertTitle>
+                    <AlertDescription className="text-blue-700 dark:text-blue-300">
+                      XP already claimed today. Come back tomorrow for more rewards!
+                    </AlertDescription>
+                  </Alert>
+                )}
+
+                {/* Claim Badge Button */}
+                {canClaim && !alreadyClaimed && (
+                  <div className="text-center">
+                    <Button size="lg" onClick={handleClaimBadge} className="gap-2">
+                      <Award className="w-5 h-5" />
+                      Claim Badge
+                    </Button>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Complete the flow to earn your badge!
+                    </p>
+                  </div>
+                )}
+
+                {/* Learning Note */}
+                <div className="bg-muted/30 p-4 rounded-lg text-sm text-muted-foreground">
+                  <p>
+                    <strong>📚 Design Insight:</strong> Task flows map the steps users take to complete a goal. 
+                    Good flows minimize friction, follow logical sequences, and match mental models. 
+                    <span className="text-foreground"> Nielsen Norman Group emphasizes designing flows that align with user expectations.</span>
+                  </p>
+                </div>
+              </div>
             ) : (
               <Alert variant="destructive">
                 <AlertCircle className="h-5 w-5" />
