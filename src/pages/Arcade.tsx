@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { getProgress, getLevel, isLocalStorageAvailable } from "@/lib/xp";
 import ProgressBar from "@/components/ProgressBar";
 import BadgeShelf from "@/components/BadgeShelf";
+import { Award } from "lucide-react";
 
 const Arcade = () => {
   const [progress, setProgress] = useState({ xp: 0, badges: [] });
@@ -109,32 +110,43 @@ const Arcade = () => {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-md transition-shadow border-dashed opacity-75">
+            <Card className="hover:shadow-md transition-shadow relative">
+              {progress.badges.some(b => b.id === 'tap-target-ace') && (
+                <div className="absolute top-3 right-3 bg-accent text-accent-foreground px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                  <Award className="w-3 h-3" aria-hidden="true" />
+                  Earned
+                </div>
+              )}
               <CardHeader>
                 <CardTitle className="text-xl">Tap Target Tuner</CardTitle>
                 <CardDescription>
-                  Learn about minimum touch target sizes and mobile accessibility
+                  Master mobile touch targets: size buttons to 44×44px minimum
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <Link to="/arcade/tap-target-tuner">
                   <Button 
                     size="lg" 
-                    variant="outline"
                     className="w-full"
-                    aria-label="Preview Tap Target Tuner (coming soon)"
+                    aria-label="Play Tap Target Tuner"
                   >
-                    Coming Soon
+                    Play Now
                   </Button>
                 </Link>
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-md transition-shadow border-dashed opacity-75">
+            <Card className="hover:shadow-md transition-shadow border-dashed opacity-75 relative">
+              {progress.badges.some(b => b.id === 'story-flow-master') && (
+                <div className="absolute top-3 right-3 bg-accent text-accent-foreground px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                  <Award className="w-3 h-3" aria-hidden="true" />
+                  Earned
+                </div>
+              )}
               <CardHeader>
                 <CardTitle className="text-xl">Story Flow Shuffle</CardTitle>
                 <CardDescription>
-                  Arrange app screens in the correct order to complete user tasks
+                  Learn user flows: arrange screens in the correct task order
                 </CardDescription>
               </CardHeader>
               <CardContent>
