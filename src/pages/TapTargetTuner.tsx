@@ -1,12 +1,42 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Construction } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { ArrowLeft, CheckCircle2, XCircle } from "lucide-react";
 
 const TapTargetTuner = () => {
+  const [size, setSize] = useState(36);
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [testMode, setTestMode] = useState(false);
+  const [tapCount, setTapCount] = useState(0);
+
+  const isPassing = size >= 44;
+  const targetTaps = 3;
+
+  const handleSizeChange = (value: number[]) => {
+    setSize(value[0]);
+    setTapCount(0); // Reset tap count when size changes
+  };
+
+  const handleTargetTap = () => {
+    if (!isPassing) return;
+    const newCount = tapCount + 1;
+    setTapCount(newCount);
+    if (newCount >= targetTaps) {
+      // Success! Reset for another try
+      setTimeout(() => setTapCount(0), 1000);
+    }
+  };
+
+  const statusColor = isPassing ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400";
+  const statusIcon = isPassing ? <CheckCircle2 className="w-5 h-5" /> : <XCircle className="w-5 h-5" />;
+
   return (
     <div className="min-h-screen bg-background">
-      <main className="container mx-auto px-4 py-8 md:py-12 max-w-2xl">
+      <main className="container mx-auto px-4 py-8 md:py-12 max-w-3xl">
         <Link to="/arcade">
           <Button variant="ghost" className="mb-6" aria-label="Back to arcade">
             <ArrowLeft className="mr-2" />
@@ -14,23 +44,125 @@ const TapTargetTuner = () => {
           </Button>
         </Link>
 
-        <Card className="border-2 border-dashed">
-          <CardHeader className="text-center">
-            <Construction className="w-16 h-16 mx-auto text-muted-foreground mb-4" aria-hidden="true" />
-            <CardTitle className="text-2xl">Tap Target Tuner</CardTitle>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-3xl">Tap-Target Tuner</CardTitle>
+            <p className="text-muted-foreground mt-2">
+              Make buttons big enough to tap comfortably. Aim for ≥ 44×44 pixels.
+            </p>
           </CardHeader>
-          <CardContent className="text-center space-y-4">
-            <p className="text-muted-foreground text-lg">
-              <strong>Goal:</strong> Resize interactive elements to reach the 44×44 pixel minimum touch target.
-            </p>
-            <div className="p-4 bg-muted rounded-lg">
-              <p className="text-sm text-muted-foreground">
-                🚧 Coming Soon
-              </p>
+          <CardContent className="space-y-8">
+            {/* Controls Section */}
+            <div className="space-y-6">
+              <div className="space-y-3">
+                <Label htmlFor="size-slider" className="text-base font-medium">
+                  Target Size: {size}×{size} px
+                </Label>
+                <Slider
+                  id="size-slider"
+                  min={24}
+                  max={80}
+                  step={1}
+                  value={[size]}
+                  onValueChange={handleSizeChange}
+                  aria-describedby="size-description"
+                  className="w-full"
+                />
+                <p id="size-description" className="text-sm text-muted-foreground">
+                  Adjust the button size to meet accessibility standards.
+                </p>
+              </div>
+
+              <div className="flex items-center space-x-3">
+                <Switch
+                  id="overlay-toggle"
+                  checked={showOverlay}
+                  onCheckedChange={setShowOverlay}
+                />
+                <Label htmlFor="overlay-toggle" className="text-base font-medium cursor-pointer">
+                  Show thumb reach overlay
+                </Label>
+              </div>
+
+              <div className="flex items-center space-x-3">
+                <Switch
+                  id="test-mode-toggle"
+                  checked={testMode}
+                  onCheckedChange={setTestMode}
+                />
+                <Label htmlFor="test-mode-toggle" className="text-base font-medium cursor-pointer">
+                  Try to Tap Me mode ({tapCount}/{targetTaps})
+                </Label>
+              </div>
             </div>
-            <p className="text-sm text-muted-foreground">
-              This quest will teach you about touch target sizes and mobile accessibility standards.
-            </p>
+
+            {/* Preview Section */}
+            <Card className="bg-muted/50 border-2">
+              <CardContent className="py-12 relative">
+                {/* Thumb reach overlay */}
+                {showOverlay && (
+                  <div
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-dashed border-primary/30 bg-primary/5 pointer-events-none"
+                    style={{ width: '56px', height: '56px' }}
+                    aria-hidden="true"
+                  />
+                )}
+
+                {/* Target Button */}
+                <div className="flex flex-col items-center gap-4">
+                  <Button
+                    style={{ width: `${size}px`, height: `${size}px` }}
+                    className="shrink-0 transition-all duration-200"
+                    onClick={testMode ? handleTargetTap : undefined}
+                    disabled={testMode && !isPassing}
+                    aria-label={testMode ? `Tap target button, ${tapCount} of ${targetTaps} taps` : "Target button preview"}
+                  >
+                    {testMode ? `${tapCount}/${targetTaps}` : "Target"}
+                  </Button>
+
+                  {/* Size readout */}
+                  <div className="text-center" role="status" aria-live="polite">
+                    <p className="text-sm font-mono">
+                      {size}×{size} px
+                    </p>
+                    <div className={`flex items-center gap-2 justify-center mt-2 font-semibold ${statusColor}`}>
+                      {statusIcon}
+                      <span>{isPassing ? "PASS" : "FAIL"}</span>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Feedback */}
+            {testMode && !isPassing && (
+              <div className="p-4 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg" role="alert">
+                <p className="text-sm text-amber-900 dark:text-amber-200">
+                  💡 <strong>Tip:</strong> Targets under 44×44 are harder to hit—especially on small screens.
+                  Increase the size to enable the tap test.
+                </p>
+              </div>
+            )}
+
+            {testMode && isPassing && tapCount >= targetTaps && (
+              <div className="p-4 bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 rounded-lg" role="alert">
+                <p className="text-sm text-green-900 dark:text-green-200">
+                  ✅ <strong>Great job!</strong> You successfully tapped the button {targetTaps} times!
+                </p>
+              </div>
+            )}
+
+            {/* Info card */}
+            <Card className="bg-primary/5 border-primary/20">
+              <CardContent className="pt-6">
+                <h3 className="font-semibold mb-2">Why 44×44 pixels?</h3>
+                <p className="text-sm text-muted-foreground">
+                  The average adult finger pad is about 10mm wide. At typical mobile screen densities,
+                  that translates to roughly 44 CSS pixels. Meeting this minimum ensures buttons are
+                  comfortable to tap for users of all abilities.
+                </p>
+              </CardContent>
+            </Card>
           </CardContent>
         </Card>
       </main>
