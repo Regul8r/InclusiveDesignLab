@@ -1,24 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, CheckCircle2, XCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle2, XCircle, Award } from "lucide-react";
+import { awardBadge, awardXp, hasClaimedToday, updateLastAward, getTodayDateString } from "@/lib/xp";
+import { toast } from "@/hooks/use-toast";
 
 const TapTargetTuner = () => {
   const [size, setSize] = useState(36);
   const [showOverlay, setShowOverlay] = useState(false);
   const [testMode, setTestMode] = useState(false);
   const [tapCount, setTapCount] = useState(0);
+  const [testCompleted, setTestCompleted] = useState(false);
+  const [alreadyClaimed, setAlreadyClaimed] = useState(false);
 
   const isPassing = size >= 44;
   const targetTaps = 3;
 
+  useEffect(() => {
+    setAlreadyClaimed(hasClaimedToday('tap-target-tuner'));
+  }, []);
+
   const handleSizeChange = (value: number[]) => {
     setSize(value[0]);
     setTapCount(0); // Reset tap count when size changes
+    setTestCompleted(false); // Reset completion when size changes
   };
 
   const handleTargetTap = () => {
@@ -26,9 +35,31 @@ const TapTargetTuner = () => {
     const newCount = tapCount + 1;
     setTapCount(newCount);
     if (newCount >= targetTaps) {
-      // Success! Reset for another try
-      setTimeout(() => setTapCount(0), 1000);
+      // Success! Mark test as completed
+      setTestCompleted(true);
     }
+  };
+
+  const handleClaimBadge = () => {
+    if (alreadyClaimed) {
+      return; // Already shown in banner
+    }
+
+    // Award the badge and XP
+    awardBadge({ 
+      id: "tap-target-ace", 
+      name: "Tap-Target Ace", 
+      xp: 40,
+      description: "You sized targets to 44×44+ and passed the tap test."
+    });
+    awardXp(40);
+    updateLastAward('tap-target-tuner', getTodayDateString());
+    setAlreadyClaimed(true);
+
+    toast({
+      title: "Badge Earned! 🎉",
+      description: "Tap-Target Ace +40 XP",
+    });
   };
 
   const statusColor = isPassing ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400";
@@ -144,12 +175,36 @@ const TapTargetTuner = () => {
               </div>
             )}
 
-            {testMode && isPassing && tapCount >= targetTaps && (
-              <div className="p-4 bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 rounded-lg" role="alert">
-                <p className="text-sm text-green-900 dark:text-green-200">
-                  ✅ <strong>Great job!</strong> You successfully tapped the button {targetTaps} times!
-                </p>
-              </div>
+            {/* Success section with badge claiming */}
+            {testCompleted && (
+              <Card className="bg-green-50 dark:bg-green-950/30 border-2 border-green-200 dark:border-green-800">
+                <CardContent className="pt-6 space-y-4">
+                  {alreadyClaimed ? (
+                    <div className="p-4 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg" role="alert">
+                      <p className="text-sm text-amber-900 dark:text-amber-200">
+                        ℹ️ Practice mode—XP already claimed today. Come back tomorrow for more rewards!
+                      </p>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="flex items-center gap-2 text-green-900 dark:text-green-200">
+                        <CheckCircle2 className="w-5 h-5" />
+                        <p className="font-semibold">
+                          Great job! You successfully tapped the button {targetTaps} times!
+                        </p>
+                      </div>
+                      <Button 
+                        onClick={handleClaimBadge}
+                        className="w-full"
+                        size="lg"
+                      >
+                        <Award className="mr-2" />
+                        Claim Badge (+40 XP)
+                      </Button>
+                    </>
+                  )}
+                </CardContent>
+              </Card>
             )}
 
             {/* Info card */}
@@ -157,8 +212,9 @@ const TapTargetTuner = () => {
               <CardContent className="pt-6">
                 <h3 className="font-semibold mb-2">Why 44×44 pixels?</h3>
                 <p className="text-sm text-muted-foreground">
-                  The average adult finger pad is about 10mm wide. At typical mobile screen densities,
-                  that translates to roughly 44 CSS pixels. Meeting this minimum ensures buttons are
+                  Apple and Google recommend ≥ 44–48 px so thumbs can hit targets without precision.
+                  The average adult finger pad is about 10mm wide, which translates to roughly 44 CSS pixels
+                  at typical mobile screen densities. Meeting this minimum ensures buttons are
                   comfortable to tap for users of all abilities.
                 </p>
               </CardContent>
