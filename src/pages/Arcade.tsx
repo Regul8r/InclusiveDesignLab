@@ -1,11 +1,22 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { getProgress, getLevel, isLocalStorageAvailable } from "@/lib/xp";
 
 const Arcade = () => {
-  // TODO: Load progress from localStorage with graceful fallback
-  const xp = 0;
-  const badges = 0;
+  const [progress, setProgress] = useState({ xp: 0, badges: [] });
+  const [storageAvailable, setStorageAvailable] = useState(true);
+
+  useEffect(() => {
+    setStorageAvailable(isLocalStorageAvailable());
+    setProgress(getProgress());
+  }, []);
+
+  const level = getLevel(progress.xp);
+  const xpInCurrentLevel = progress.xp % 100;
+  const progressPercentage = xpInCurrentLevel;
 
   return (
     <div className="min-h-screen bg-background">
@@ -25,19 +36,40 @@ const Arcade = () => {
           className="mb-8 p-6 bg-card border border-border rounded-lg shadow-sm"
           aria-label="Your progress"
         >
-          <div className="flex flex-wrap gap-6 justify-center items-center">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-primary">{xp}</div>
-              <div className="text-sm text-muted-foreground">XP</div>
+          <div className="space-y-4">
+            {/* Level & Stats */}
+            <div className="flex flex-wrap gap-6 justify-center items-center">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-primary">Level {level}</div>
+                <div className="text-sm text-muted-foreground">{progress.xp} XP</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-secondary">{progress.badges.length}</div>
+                <div className="text-sm text-muted-foreground">Badges</div>
+              </div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-secondary">{badges}</div>
-              <div className="text-sm text-muted-foreground">Badges</div>
+
+            {/* Progress Bar to Next Level */}
+            <div className="max-w-md mx-auto space-y-2">
+              <div className="flex justify-between text-xs text-muted-foreground">
+                <span>Level {level}</span>
+                <span>{xpInCurrentLevel}/100 XP</span>
+                <span>Level {level + 1}</span>
+              </div>
+              <Progress value={progressPercentage} className="h-2" />
             </div>
+
+            <p className="text-xs text-center text-muted-foreground">
+              Complete quests to unlock badges and earn XP!
+            </p>
+
+            {/* Storage Warning */}
+            {!storageAvailable && (
+              <p className="text-xs text-center text-destructive bg-destructive/10 p-2 rounded">
+                ⚠️ Progress will reset when you close the tab.
+              </p>
+            )}
           </div>
-          <p className="text-xs text-center text-muted-foreground mt-4">
-            Complete quests to unlock badges and earn XP!
-          </p>
         </section>
 
         {/* Game Cards */}
