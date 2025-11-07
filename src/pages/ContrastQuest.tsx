@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
+import { awardXp, awardBadge, updateLastAward, hasClaimedToday, getTodayDateString } from "@/lib/xp";
+import { toast } from "sonner";
 
 // WCAG relative luminance calculation
 const getLuminance = (r: number, g: number, b: number): number => {
@@ -58,8 +60,14 @@ const ContrastQuest = () => {
   const [backgroundColor, setBackgroundColor] = useState("#FFFFFF");
   const [lightness, setLightness] = useState(100);
   const [contrastRatio, setContrastRatio] = useState(0);
+  const [alreadyClaimed, setAlreadyClaimed] = useState(false);
 
   const passesAA = contrastRatio >= 4.5;
+  const passesAAA = contrastRatio >= 7.0;
+
+  useEffect(() => {
+    setAlreadyClaimed(hasClaimedToday("contrast-quest"));
+  }, []);
 
   // Update contrast ratio when colors change
   useEffect(() => {
@@ -74,6 +82,40 @@ const ContrastQuest = () => {
     // Convert current background to HSL, update lightness, convert back
     const newBg = hslToHex(0, 0, newLightness);
     setBackgroundColor(newBg);
+  };
+
+  const handleClaimRewards = () => {
+    if (alreadyClaimed) {
+      toast.info("Practice mode—XP already claimed today.");
+      return;
+    }
+
+    // Award badge
+    awardBadge({
+      id: "contrast-champ",
+      name: "Contrast Champ",
+      description: "Passed WCAG AA contrast standards",
+      xp: 50,
+    });
+
+    // Calculate XP
+    let totalXp = 50;
+    let message = "You earned 50 XP and the Contrast Champ badge!";
+    
+    if (passesAAA) {
+      totalXp += 10;
+      message = "🌟 Amazing! AAA standard! You earned 60 XP and the Contrast Champ badge!";
+    }
+
+    // Award XP
+    awardXp(totalXp);
+
+    // Update last award date
+    updateLastAward("contrast-quest", getTodayDateString());
+    setAlreadyClaimed(true);
+
+    // Show success toast
+    toast.success(message);
   };
 
   return (
@@ -247,6 +289,13 @@ const ContrastQuest = () => {
             {passesAA && (
               <Card className="border-primary bg-primary/5">
                 <CardContent className="pt-6">
+                  {alreadyClaimed && (
+                    <div className="mb-4 p-3 bg-muted rounded-lg text-center">
+                      <p className="text-sm text-muted-foreground">
+                        ✓ Practice mode—XP already claimed today.
+                      </p>
+                    </div>
+                  )}
                   <div className="text-center space-y-4">
                     <CheckCircle2 className="h-16 w-16 text-primary mx-auto" aria-hidden="true" />
                     <div>
@@ -256,14 +305,20 @@ const ContrastQuest = () => {
                       <p className="text-sm text-muted-foreground">
                         Your color combination passes WCAG AA standards
                       </p>
+                      {passesAAA && (
+                        <p className="text-sm font-semibold text-primary mt-1">
+                          🌟 Bonus: AAA standard achieved! (+10 XP)
+                        </p>
+                      )}
                     </div>
                     <Button 
                       size="lg" 
-                      disabled
+                      disabled={alreadyClaimed}
+                      onClick={handleClaimRewards}
                       className="w-full"
-                      aria-label="Claim badge - feature coming soon"
+                      aria-label={alreadyClaimed ? "Rewards already claimed today" : "Claim badge and XP"}
                     >
-                      Claim Badge (Coming Soon)
+                      {alreadyClaimed ? "Claimed for Today" : "Claim Badge & XP"}
                     </Button>
                   </div>
                 </CardContent>

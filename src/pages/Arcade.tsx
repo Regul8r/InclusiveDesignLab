@@ -12,6 +12,18 @@ const Arcade = () => {
   useEffect(() => {
     setStorageAvailable(isLocalStorageAvailable());
     setProgress(getProgress());
+
+    // Refresh progress when page becomes visible (user navigates back)
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        setProgress(getProgress());
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, []);
 
   const level = getLevel(progress.xp);

@@ -88,6 +88,35 @@ export const awardBadge = (badge: Badge): Progress => {
   return updated;
 };
 
+export const updateLastAward = (questId: string, date: string): Progress => {
+  const current = getProgress();
+  const updated = {
+    ...current,
+    lastAwards: {
+      ...(current.lastAwards || {}),
+      [questId]: date,
+    },
+  };
+  saveProgress(updated);
+  return updated;
+};
+
+export const getLastAwardDate = (questId: string): string | null => {
+  const current = getProgress();
+  return current.lastAwards?.[questId] || null;
+};
+
+export const getTodayDateString = (): string => {
+  const today = new Date();
+  return today.toISOString().split('T')[0]; // YYYY-MM-DD
+};
+
+export const hasClaimedToday = (questId: string): boolean => {
+  const lastAward = getLastAwardDate(questId);
+  if (!lastAward) return false;
+  return lastAward === getTodayDateString();
+};
+
 export const getLevel = (xp: number): number => {
   return Math.floor(xp / 100);
 };
