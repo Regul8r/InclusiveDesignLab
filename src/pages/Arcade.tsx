@@ -35,6 +35,9 @@ const Arcade = () => {
               <div className="text-sm text-muted-foreground">Badges</div>
             </div>
           </div>
+          <p className="text-xs text-center text-muted-foreground mt-4">
+            Complete quests to unlock badges and earn XP!
+          </p>
         </section>
 
         {/* Game Cards */}
