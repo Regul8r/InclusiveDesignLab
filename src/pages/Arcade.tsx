@@ -88,25 +88,69 @@ const Arcade = () => {
         <section aria-label="Available games">
           <h2 className="text-2xl font-semibold mb-6 text-foreground">Games</h2>
           
-          <Card className="hover:shadow-md transition-shadow">
-            <CardHeader>
-              <CardTitle className="text-xl">Play Contrast Quest</CardTitle>
-              <CardDescription>
-                Master color contrast and accessibility by choosing color pairs that pass WCAG standards
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Link to="/arcade/contrast-quest">
-                <Button 
-                  size="lg" 
-                  className="w-full md:w-auto"
-                  aria-label="Start playing Contrast Quest"
-                >
-                  Start Game
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader>
+                <CardTitle className="text-xl">Contrast Quest</CardTitle>
+                <CardDescription>
+                  Master color contrast and accessibility by choosing color pairs that pass WCAG standards
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link to="/arcade/contrast-quest">
+                  <Button 
+                    size="lg" 
+                    className="w-full"
+                    aria-label="Start playing Contrast Quest"
+                  >
+                    Play Now
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-md transition-shadow border-dashed opacity-75">
+              <CardHeader>
+                <CardTitle className="text-xl">Tap Target Tuner</CardTitle>
+                <CardDescription>
+                  Learn about minimum touch target sizes and mobile accessibility
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link to="/arcade/tap-target-tuner">
+                  <Button 
+                    size="lg" 
+                    variant="outline"
+                    className="w-full"
+                    aria-label="Preview Tap Target Tuner (coming soon)"
+                  >
+                    Coming Soon
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-md transition-shadow border-dashed opacity-75">
+              <CardHeader>
+                <CardTitle className="text-xl">Story Flow Shuffle</CardTitle>
+                <CardDescription>
+                  Arrange app screens in the correct order to complete user tasks
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link to="/arcade/story-flow-shuffle">
+                  <Button 
+                    size="lg" 
+                    variant="outline"
+                    className="w-full"
+                    aria-label="Preview Story Flow Shuffle (coming soon)"
+                  >
+                    Coming Soon
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
         </section>
       </main>
 
