@@ -1,4 +1,4 @@
-# Prototykes Design Arcade
+# Inclusive Design Lab
 
 Learn design principles through interactive games designed for kids and beginners.
 
@@ -11,17 +11,17 @@ Learn design principles through interactive games designed for kids and beginner
 - How to calculate and interpret contrast ratios
 - Why contrast matters for accessibility and readability
 
-**Gameplay:**
+**Tasks:**
 - Adjust foreground and background colors using color pickers or a lightness slider
 - Watch the contrast ratio update in real-time
 - Achieve a ratio ≥ 4.5:1 to pass WCAG AA standards
 - Earn bonus XP for achieving ≥ 7.0:1 (AAA level)
 - Claim badge and XP once per day
 
-### Tap Target Tuner (Coming Soon)
+### Tap Target Tuner 
 Learn about minimum touch target sizes (44×44 pixels) and mobile accessibility.
 
-### Story Flow Shuffle (Coming Soon)
+### Story Flow Shuffle 
 Master user flows and information architecture by arranging app screens in the correct order.
 
 ## Progress System
@@ -31,15 +31,6 @@ Master user flows and information architecture by arranging app screens in the c
 - Every 100 XP = 1 level
 - Progress is tracked locally and persists between sessions
 
-### Badges
-- Earn badges by completing specific achievements
-- Each badge can only be earned once
-- Badges display earned date and XP value
-
-### Daily Rewards
-- Quest rewards can be claimed once per 24 hours (based on UTC date)
-- After claiming, you can continue practicing but won't earn additional XP until the next day
-- This encourages consistent learning without grinding
 
 ## Data Storage
 
