@@ -114,27 +114,30 @@ const ContrastQuest = () => {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8 max-w-5xl">
         {/* Back Navigation */}
-        <nav className="mb-8" aria-label="Breadcrumb">
+        <nav className="mb-6">
           <Link to="/arcade">
             <Button 
-              variant="ghost" 
-              size="sm"
-              className="gap-2"
+              variant="outline"
+              className="rounded-lg"
+              aria-label="Back to tasks"
             >
-              <ArrowLeft className="h-4 w-4" />
-              Back to Arcade
+              <ArrowLeft className="mr-2" />
+              Back to tasks
             </Button>
           </Link>
         </nav>
 
         {/* Game Header */}
         <header className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
-            Contrast Quest
-          </h1>
-          <p className="text-muted-foreground">
-            Adjust colors until the contrast ratio passes WCAG AA (4.5:1)
-          </p>
+          <div className="space-y-1">
+            <h1 className="text-2xl font-bold text-foreground">
+              Color & Text Contrast Check
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Adjust your text and background colors to see how contrast affects readability.
+              Higher contrast helps more people read your interface comfortably.
+            </p>
+          </div>
         </header>
 
         <div className="grid md:grid-cols-2 gap-8">
@@ -200,7 +203,7 @@ const ContrastQuest = () => {
                 {/* Lightness Slider */}
                 <div className="space-y-3">
                   <Label htmlFor="lightness-slider" className="text-sm font-medium">
-                    Background Lightness: {lightness}%
+                    Background brightness
                   </Label>
                   <Slider
                     id="lightness-slider"
@@ -210,8 +213,12 @@ const ContrastQuest = () => {
                     max={100}
                     step={1}
                     className="w-full"
-                    aria-label="Adjust background lightness"
+                    aria-label="Adjust background brightness"
+                    aria-describedby="bg-bright-help"
                   />
+                  <p id="bg-bright-help" className="text-xs text-muted-foreground">
+                    Simulate lighter vs darker backgrounds to feel how contrast changes.
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -219,23 +226,24 @@ const ContrastQuest = () => {
             {/* Contrast Ratio Display */}
             <Card>
               <CardContent className="pt-6">
-                <div className="text-center">
-                  <div className="text-sm text-muted-foreground mb-2">
-                    Contrast Ratio
-                  </div>
-                  <div className="text-5xl font-bold text-foreground mb-3">
-                    {contrastRatio.toFixed(2)}:1
-                  </div>
-                  <div 
-                    className={`text-lg font-semibold ${passesAA ? 'text-primary' : 'text-destructive'}`}
-                    aria-live="polite"
-                    aria-atomic="true"
-                  >
-                    {passesAA ? '✓ Pass AA' : '✗ Fail'}
-                  </div>
-                  <div className="text-xs text-muted-foreground mt-2">
-                    WCAG AA requires ≥ 4.5:1 for normal text
-                  </div>
+                <div 
+                  className="rounded-xl border p-3 text-sm"
+                  role="status"
+                  aria-live="polite"
+                >
+                  <p className="mb-1">
+                    Contrast ratio:{" "}
+                    <span className="font-mono font-semibold text-lg">
+                      {contrastRatio.toFixed(2)}:1
+                    </span>
+                  </p>
+                  <p className="text-muted-foreground">
+                    {passesAAA 
+                      ? "Passes many strict contrast recommendations (AAA-like range)." 
+                      : passesAA 
+                      ? "Meets common contrast recommendations for body text."
+                      : "May be hard to read for many users — try increasing contrast."}
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -249,29 +257,29 @@ const ContrastQuest = () => {
               </CardHeader>
               <CardContent>
                 <div 
-                  className="p-6 rounded-lg border-2 border-dashed border-border"
+                  className="p-5 rounded-xl border shadow-sm"
                   style={{ 
                     backgroundColor: backgroundColor,
                     color: foregroundColor 
                   }}
                 >
-                  <h2 className="text-2xl font-bold mb-3">
-                    Sample Heading
+                  <h2 className="text-lg font-semibold mb-2">
+                    Preview text
                   </h2>
-                  <p className="mb-4 leading-relaxed">
-                    This is sample paragraph text to help you see how your color choices 
-                    look in practice. Good contrast makes content easier to read for everyone.
+                  <p className="text-sm leading-relaxed">
+                    This is how a block of interface text might appear to someone reading your
+                    app. Try adjusting colors until it feels easy to scan without squinting.
                   </p>
                   <button
-                    className="px-4 py-2 rounded-md font-medium border-2 transition-opacity hover:opacity-80 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+                    type="button"
+                    className="mt-4 rounded-lg border px-4 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2"
                     style={{
-                      backgroundColor: foregroundColor,
-                      color: backgroundColor,
-                      borderColor: foregroundColor
+                      borderColor: foregroundColor,
+                      color: foregroundColor
                     }}
                     aria-label="Sample button"
                   >
-                    Sample Button
+                    Sample button
                   </button>
                 </div>
               </CardContent>
