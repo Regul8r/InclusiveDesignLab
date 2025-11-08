@@ -142,21 +142,26 @@ const StoryFlowShuffle = () => {
   return (
     <div className="min-h-screen bg-background">
       <main className="container mx-auto px-4 py-8 md:py-12 max-w-4xl">
-        <Link to="/arcade">
-          <Button variant="ghost" className="mb-6" aria-label="Back to arcade">
-            <ArrowLeft className="mr-2" />
-            Back to Arcade
-          </Button>
-        </Link>
+        <nav className="mb-6">
+          <Link to="/arcade">
+            <Button variant="outline" className="rounded-lg" aria-label="Back to tasks">
+              <ArrowLeft className="mr-2" />
+              Back to tasks
+            </Button>
+          </Link>
+        </nav>
 
         {/* Header */}
-        <header className="mb-8 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
-            Story Flow Shuffle
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Drag the cards to form a user's journey from start to finish.
-          </p>
+        <header className="mb-8">
+          <div className="space-y-1">
+            <h1 className="text-2xl font-bold text-foreground">
+              Task Flow Clarity Check
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Reorder the screens to match how a person would actually move through this journey —
+              from landing on Home to confirming their action.
+            </p>
+          </div>
         </header>
 
         {/* Draggable Cards */}

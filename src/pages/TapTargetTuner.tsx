@@ -62,19 +62,24 @@ const TapTargetTuner = () => {
   return (
     <div className="min-h-screen bg-background">
       <main className="container mx-auto px-4 py-8 md:py-12 max-w-3xl">
-        <Link to="/arcade">
-          <Button variant="ghost" className="mb-6" aria-label="Back to arcade">
-            <ArrowLeft className="mr-2" />
-            Back to Arcade
-          </Button>
-        </Link>
+        <nav className="mb-6">
+          <Link to="/arcade">
+            <Button variant="outline" className="rounded-lg" aria-label="Back to tasks">
+              <ArrowLeft className="mr-2" />
+              Back to tasks
+            </Button>
+          </Link>
+        </nav>
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-3xl">Tap-Target Tuner</CardTitle>
-            <p className="text-muted-foreground mt-2">
-              Make buttons big enough to tap comfortably. Aim for ≥ 44×44 pixels.
-            </p>
+            <div className="space-y-1">
+              <CardTitle className="text-2xl">Tap Target Comfort Check</CardTitle>
+              <p className="text-sm text-muted-foreground">
+                Adjust the size and feel how much easier it is to tap a button once it meets common
+                guidelines (around 44–48 px on touch screens).
+              </p>
+            </div>
           </CardHeader>
           <CardContent className="space-y-8">
             {/* Controls Section */}
