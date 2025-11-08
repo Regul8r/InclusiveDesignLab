@@ -89,7 +89,7 @@ const StoryFlowShuffle = () => {
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
-      <div className="mx-auto max-w-3xl px-4 py-10 space-y-8">
+      <div className="mx-auto max-w-4xl px-4 py-8 space-y-6">
         <nav>
           <Link
             to="/arcade"
@@ -101,11 +101,14 @@ const StoryFlowShuffle = () => {
         </nav>
 
         {/* Header */}
-        <header className="space-y-1">
-          <h1 className="text-2xl font-bold">
+        <header className="space-y-2">
+          <p className="text-xs font-medium uppercase tracking-[0.18em] text-slate-500">
+            Inclusive Design Lab
+          </p>
+          <h1 className="text-3xl font-semibold leading-tight">
             Task Flow Clarity Check
           </h1>
-          <p className="text-sm text-slate-600">
+          <p className="text-base text-slate-600">
             Reorder the screens to match how a person would actually move through this journey —
             from landing on Home to confirming their action.
           </p>
@@ -186,9 +189,12 @@ const StoryFlowShuffle = () => {
                 </div>
 
                 {/* Learning Note */}
-                <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-600">
+                <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-700">
+                  <h2 className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+                    What this task practices
+                  </h2>
                   <p>
-                    <strong className="text-slate-900">📚 Design Insight:</strong> Task flows map the steps users take to complete a goal. 
+                    Task flows map the steps users take to complete a goal. 
                     Good flows minimize friction, follow logical sequences, and match mental models.
                   </p>
                 </div>

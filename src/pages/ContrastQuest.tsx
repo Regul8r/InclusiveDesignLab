@@ -81,7 +81,7 @@ const ContrastQuest = () => {
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
-      <div className="mx-auto max-w-3xl px-4 py-10 space-y-8">
+      <div className="mx-auto max-w-4xl px-4 py-8 space-y-6">
         <nav>
           <Link
             to="/arcade"
@@ -92,9 +92,12 @@ const ContrastQuest = () => {
           </Link>
         </nav>
 
-        <header className="space-y-1">
-          <h1 className="text-2xl font-bold">Color & Text Contrast Check</h1>
-          <p className="text-sm text-slate-600">
+        <header className="space-y-2">
+          <p className="text-xs font-medium uppercase tracking-[0.18em] text-slate-500">
+            Inclusive Design Lab
+          </p>
+          <h1 className="text-3xl font-semibold leading-tight">Color & Text Contrast Check</h1>
+          <p className="text-base text-slate-600">
             Adjust your text and background colors to see how contrast affects readability.
             Higher contrast helps more people read your interface comfortably.
           </p>
@@ -104,7 +107,7 @@ const ContrastQuest = () => {
           <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             {/* Controls */}
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-slate-900">
+              <Label className="text-base font-medium text-slate-900">
                 Text color
               </Label>
               <div className="flex gap-3 items-center">
@@ -115,12 +118,12 @@ const ContrastQuest = () => {
                   className="h-10 w-16 cursor-pointer rounded border border-slate-300 bg-transparent"
                   aria-label="Choose text color"
                 />
-                <p className="font-mono text-xs text-slate-600">{foregroundColor}</p>
+                <p className="font-mono text-sm text-slate-500">{foregroundColor}</p>
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-slate-900">
+              <Label className="text-base font-medium text-slate-900">
                 Background color
               </Label>
               <div className="flex gap-3 items-center">
@@ -131,12 +134,12 @@ const ContrastQuest = () => {
                   className="h-10 w-16 cursor-pointer rounded border border-slate-300 bg-transparent"
                   aria-label="Choose background color"
                 />
-                <p className="font-mono text-xs text-slate-600">{backgroundColor}</p>
+                <p className="font-mono text-sm text-slate-500">{backgroundColor}</p>
               </div>
             </div>
 
             <div className="space-y-1">
-              <Label className="text-sm font-medium text-slate-900">
+              <Label className="text-base font-medium text-slate-900">
                 Background brightness
               </Label>
               <Slider
@@ -148,7 +151,7 @@ const ContrastQuest = () => {
                 className="w-full mt-2"
                 aria-describedby="bg-bright-help"
               />
-              <p id="bg-bright-help" className="text-xs text-slate-600">
+              <p id="bg-bright-help" className="text-base text-slate-600">
                 Simulate lighter vs darker backgrounds to feel how contrast changes.
               </p>
             </div>
@@ -192,9 +195,9 @@ const ContrastQuest = () => {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-4 text-xs text-slate-600">
-              <h2 className="mb-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
-                Why this check matters
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-700">
+              <h2 className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+                What this task practices
               </h2>
               <p>
                 Low contrast can be especially hard on users with vision impairments, older screens,

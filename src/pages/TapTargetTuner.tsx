@@ -30,7 +30,7 @@ const TapTargetTuner = () => {
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
-      <div className="mx-auto max-w-3xl px-4 py-10 space-y-8">
+      <div className="mx-auto max-w-4xl px-4 py-8 space-y-6">
         <nav>
           <Link
             to="/arcade"
@@ -41,9 +41,12 @@ const TapTargetTuner = () => {
           </Link>
         </nav>
 
-        <header className="space-y-1">
-          <h1 className="text-2xl font-bold">Tap Target Comfort Check</h1>
-          <p className="text-sm text-slate-600">
+        <header className="space-y-2">
+          <p className="text-xs font-medium uppercase tracking-[0.18em] text-slate-500">
+            Inclusive Design Lab
+          </p>
+          <h1 className="text-3xl font-semibold leading-tight">Tap Target Comfort Check</h1>
+          <p className="text-base text-slate-600">
             Adjust the size and feel how much easier it is to tap a button once it meets common
             guidelines (around 44–48 px on touch screens).
           </p>
@@ -53,7 +56,7 @@ const TapTargetTuner = () => {
           <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             {/* Controls */}
             <div className="space-y-3">
-              <Label htmlFor="size-slider" className="text-base font-medium text-slate-900">
+              <Label htmlFor="size-slider" className="text-sm font-medium text-slate-900">
                 Target Size: {size}×{size} px
               </Label>
               <Slider
@@ -66,7 +69,7 @@ const TapTargetTuner = () => {
                 aria-describedby="size-description"
                 className="w-full"
               />
-              <p id="size-description" className="text-sm text-slate-600">
+              <p id="size-description" className="text-base text-slate-600">
                 Adjust the button size to meet accessibility standards.
               </p>
             </div>
@@ -77,7 +80,7 @@ const TapTargetTuner = () => {
                 checked={showOverlay}
                 onCheckedChange={setShowOverlay}
               />
-              <Label htmlFor="overlay-toggle" className="text-base font-medium cursor-pointer text-slate-900">
+              <Label htmlFor="overlay-toggle" className="text-sm font-medium cursor-pointer text-slate-900">
                 Show thumb reach overlay
               </Label>
             </div>
@@ -88,7 +91,7 @@ const TapTargetTuner = () => {
                 checked={testMode}
                 onCheckedChange={setTestMode}
               />
-              <Label htmlFor="test-mode-toggle" className="text-base font-medium cursor-pointer text-slate-900">
+              <Label htmlFor="test-mode-toggle" className="text-sm font-medium cursor-pointer text-slate-900">
                 Try to Tap Me mode ({tapCount}/{targetTaps})
               </Label>
             </div>
@@ -133,9 +136,9 @@ const TapTargetTuner = () => {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-4 text-xs text-slate-600">
-              <h2 className="mb-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
-                Why this check matters
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-700">
+              <h2 className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+                What this task practices
               </h2>
               <p>
                 Small tap targets can be frustrating for users with larger hands, motor
