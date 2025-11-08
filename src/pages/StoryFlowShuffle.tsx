@@ -1,11 +1,6 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import { ArrowLeft, Home, Search, List, FileText, ShoppingCart, CheckCircle, ChevronLeft, ChevronRight, AlertCircle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { awardXp, hasClaimedToday, updateLastAward, getTodayDateString } from "@/lib/xp";
-import { useToast } from "@/hooks/use-toast";
 
 type Screen = {
   id: string;
@@ -39,15 +34,6 @@ const StoryFlowShuffle = () => {
   const [checked, setChecked] = useState(false);
   const [isPassing, setIsPassing] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
-  const [checkCount, setCheckCount] = useState(0);
-  const [canClaim, setCanClaim] = useState(false);
-  const [alreadyClaimed, setAlreadyClaimed] = useState(false);
-
-  const { toast } = useToast();
-
-  useEffect(() => {
-    setAlreadyClaimed(hasClaimedToday("story-flow-shuffle"));
-  }, []);
 
   // Drag handlers
   const handleDragStart = (index: number) => {
@@ -99,69 +85,30 @@ const StoryFlowShuffle = () => {
     setIsPassing(allCorrect);
     setErrors(newErrors);
     setChecked(true);
-    setCheckCount(prev => prev + 1);
-
-    // Enable claim if passing and not already claimed
-    if (allCorrect && !alreadyClaimed) {
-      setCanClaim(true);
-    }
-  };
-
-  // Claim reward handler
-  const handleClaimReward = () => {
-    if (alreadyClaimed) {
-      toast({
-        title: "Practice Mode",
-        description: "XP already claimed today. Come back tomorrow!",
-      });
-      return;
-    }
-
-    // Calculate bonus XP: if solved with ≤1 mistake on first check
-    let totalXp = 50;
-    let bonusAwarded = false;
-    if (checkCount === 1 && errors.length <= 1) {
-      totalXp += 10;
-      bonusAwarded = true;
-    }
-
-    awardXp(totalXp);
-    updateLastAward("story-flow-shuffle", getTodayDateString());
-
-    setAlreadyClaimed(true);
-    setCanClaim(false);
-
-    toast({
-      title: "Success! 🎉",
-      description: bonusAwarded 
-        ? `+${totalXp} XP (including +10 bonus for solving quickly!)`
-        : `+${totalXp} XP earned`,
-    });
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <main className="container mx-auto px-4 py-8 md:py-12 max-w-4xl">
+    <main className="min-h-screen bg-slate-950 text-slate-50">
+      <div className="mx-auto max-w-5xl px-4 py-10">
         <nav className="mb-6">
-          <Link to="/arcade">
-            <Button variant="outline" className="rounded-lg" aria-label="Back to tasks">
-              <ArrowLeft className="mr-2" />
-              Back to tasks
-            </Button>
+          <Link
+            to="/arcade"
+            className="inline-flex items-center rounded-lg bg-slate-50/10 px-4 py-2 text-sm font-medium text-slate-50 hover:bg-slate-50/20 focus:outline-none focus:ring-2 focus:ring-sky-400"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to tasks
           </Link>
         </nav>
 
         {/* Header */}
-        <header className="mb-8">
-          <div className="space-y-1">
-            <h1 className="text-2xl font-bold text-foreground">
-              Task Flow Clarity Check
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Reorder the screens to match how a person would actually move through this journey —
-              from landing on Home to confirming their action.
-            </p>
-          </div>
+        <header className="mb-8 space-y-1">
+          <h1 className="text-2xl font-bold">
+            Task Flow Clarity Check
+          </h1>
+          <p className="text-sm text-slate-300">
+            Reorder the screens to match how a person would actually move through this journey —
+            from landing on Home to confirming their action.
+          </p>
         </header>
 
         {/* Draggable Cards */}
@@ -170,55 +117,54 @@ const StoryFlowShuffle = () => {
             {cards.map((screen, index) => {
               const Icon = screen.icon;
               return (
-                <Card
+                <div
                   key={screen.id}
                   draggable
                   onDragStart={() => handleDragStart(index)}
                   onDragOver={handleDragOver}
                   onDrop={() => handleDrop(index)}
-                  className="cursor-move hover:shadow-lg transition-shadow relative"
+                  className="glass-card cursor-move hover:shadow-[0_0_60px_rgba(15,23,42,0.9)] transition-shadow relative"
                   role="article"
                   aria-label={`${screen.label} card, position ${index + 1}`}
                 >
-                  <CardHeader className="pb-3">
-                    <div className="absolute top-2 left-2 text-xs font-bold text-muted-foreground">
-                      {index + 1}
-                    </div>
-                    <Icon className="w-8 h-8 mx-auto text-primary mb-2" aria-hidden="true" />
-                    <CardTitle className="text-center text-base">{screen.label}</CardTitle>
-                  </CardHeader>
+                  <div className="absolute top-2 left-2 text-xs font-bold text-slate-400">
+                    {index + 1}
+                  </div>
+                  <Icon className="w-8 h-8 mx-auto text-sky-400 mb-2" aria-hidden="true" />
+                  <h3 className="text-center text-base font-semibold">{screen.label}</h3>
                   
                   {/* Keyboard controls */}
-                  <CardContent className="pt-0 flex gap-2 justify-center">
-                    <Button
-                      size="sm"
-                      variant="outline"
+                  <div className="pt-3 flex gap-2 justify-center">
+                    <button
+                      className="rounded-lg border border-slate-600 bg-slate-800/50 px-3 py-1 text-sm hover:bg-slate-700/50 disabled:opacity-30 disabled:cursor-not-allowed"
                       onClick={() => moveCard(index, "left")}
                       disabled={index === 0}
                       aria-label={`Move ${screen.label} left`}
                     >
                       <ChevronLeft className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
+                    </button>
+                    <button
+                      className="rounded-lg border border-slate-600 bg-slate-800/50 px-3 py-1 text-sm hover:bg-slate-700/50 disabled:opacity-30 disabled:cursor-not-allowed"
                       onClick={() => moveCard(index, "right")}
                       disabled={index === cards.length - 1}
                       aria-label={`Move ${screen.label} right`}
                     >
                       <ChevronRight className="w-4 h-4" />
-                    </Button>
-                  </CardContent>
-                </Card>
+                    </button>
+                  </div>
+                </div>
               );
             })}
           </div>
 
           {/* Check Button */}
           <div className="text-center">
-            <Button size="lg" onClick={handleCheckFlow}>
+            <button
+              className="rounded-xl bg-sky-500 px-6 py-3 text-sm font-semibold text-slate-950 hover:bg-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400"
+              onClick={handleCheckFlow}
+            >
               Check Flow
-            </Button>
+            </button>
           </div>
         </section>
 
@@ -227,76 +173,54 @@ const StoryFlowShuffle = () => {
           <section aria-live="polite" className="mb-6">
             {isPassing ? (
               <div className="space-y-4">
-                <Alert className="bg-green-50 border-green-200 dark:bg-green-950 dark:border-green-800">
-                  <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
-                  <AlertTitle className="text-green-800 dark:text-green-200">Perfect! Flow Completed</AlertTitle>
-                  <AlertDescription className="text-green-700 dark:text-green-300">
+                <div className="p-4 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 text-emerald-200">
+                  <div className="flex items-center gap-2 mb-2">
+                    <CheckCircle className="h-5 w-5" />
+                    <h3 className="font-semibold">Perfect! Flow Completed</h3>
+                  </div>
+                  <p className="text-sm">
                     This sequence makes sense: Users start at <strong>Home</strong>, use <strong>Search</strong> to find items, 
                     view <strong>Results</strong>, select a <strong>Detail</strong> page, <strong>Add to Cart</strong>, 
                     and finally <strong>Confirm</strong> their purchase. Well done!
-                  </AlertDescription>
-                </Alert>
-
-                {/* Practice Mode Banner */}
-                {alreadyClaimed && (
-                  <Alert className="bg-blue-50 border-blue-200 dark:bg-blue-950 dark:border-blue-800">
-                    <AlertCircle className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                    <AlertTitle className="text-blue-800 dark:text-blue-200">Practice Mode</AlertTitle>
-                    <AlertDescription className="text-blue-700 dark:text-blue-300">
-                      XP already claimed today. Come back tomorrow for more rewards!
-                    </AlertDescription>
-                  </Alert>
-                )}
-
-                {/* Claim Reward Button */}
-                {canClaim && !alreadyClaimed && (
-                  <div className="text-center">
-                    <Button size="lg" onClick={handleClaimReward}>
-                      Claim Reward
-                    </Button>
-                    <p className="text-xs text-muted-foreground mt-2">
-                      Complete the flow to earn XP!
-                    </p>
-                  </div>
-                )}
+                  </p>
+                </div>
 
                 {/* Learning Note */}
-                <div className="bg-muted/30 p-4 rounded-lg text-sm text-muted-foreground">
+                <div className="rounded-2xl border border-slate-700/60 bg-slate-900/70 p-4 text-sm text-slate-200">
                   <p>
-                    <strong>📚 Design Insight:</strong> Task flows map the steps users take to complete a goal. 
-                    Good flows minimize friction, follow logical sequences, and match mental models. 
-                    <span className="text-foreground"> Nielsen Norman Group emphasizes designing flows that align with user expectations.</span>
+                    <strong className="text-slate-100">📚 Design Insight:</strong> Task flows map the steps users take to complete a goal. 
+                    Good flows minimize friction, follow logical sequences, and match mental models.
                   </p>
                 </div>
               </div>
             ) : (
-              <Alert variant="destructive">
-                <AlertCircle className="h-5 w-5" />
-                <AlertTitle>Flow Needs Adjustment</AlertTitle>
-                <AlertDescription>
-                  <ul className="list-disc list-inside mt-2 space-y-1">
-                    {errors.map((error, idx) => (
-                      <li key={idx}>{error}</li>
-                    ))}
-                  </ul>
-                </AlertDescription>
-              </Alert>
+              <div className="p-4 rounded-2xl border border-rose-500/40 bg-rose-500/10 text-rose-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <AlertCircle className="h-5 w-5" />
+                  <h3 className="font-semibold">Flow Needs Adjustment</h3>
+                </div>
+                <ul className="list-disc list-inside mt-2 space-y-1 text-sm">
+                  {errors.map((error, idx) => (
+                    <li key={idx}>{error}</li>
+                  ))}
+                </ul>
+              </div>
             )}
           </section>
         )}
 
         {/* Hints */}
-        <section className="bg-muted/50 p-6 rounded-lg">
-          <h2 className="text-lg font-semibold mb-3 text-foreground">💡 Hints</h2>
-          <ul className="space-y-2 text-sm text-muted-foreground">
+        <section className="rounded-2xl border border-slate-700/60 bg-slate-900/70 p-6">
+          <h2 className="text-lg font-semibold mb-3">💡 Hints</h2>
+          <ul className="space-y-2 text-sm text-slate-300">
             <li>• Start with the entry point users typically see first</li>
             <li>• Results should appear before a Detail page</li>
             <li>• Users add items to cart before confirming their order</li>
             <li>• Confirm should be the final step</li>
           </ul>
         </section>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 };
 

@@ -1,101 +1,95 @@
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const Arcade = () => {
-
   return (
-    <div className="min-h-screen bg-background">
-      <main className="container mx-auto px-4 py-8 md:py-12 max-w-5xl">
-        {/* Hero Section */}
-        <header className="mb-10" role="banner">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            Are You Designing With Everyone in Mind?
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Use these short accessibility tasks to see how your interfaces feel in real-life
-            conditions — from color contrast to tap targets and task flows.
-          </p>
-        </header>
+    <main className="min-h-screen bg-slate-950 text-slate-50">
+      <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 py-10 lg:flex-row lg:py-16">
+        {/* Left: title + tasks */}
+        <div className="flex-1 space-y-8">
+          <header className="space-y-3">
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+              Prototykes · Inclusive Design Lab
+            </p>
+            <h1 className="text-3xl font-semibold sm:text-4xl">
+              Are you designing with everyone in mind?
+            </h1>
+            <p className="max-w-xl text-sm text-slate-300">
+              Try these short accessibility tasks to see how your interfaces feel in
+              real-life conditions — from color contrast to tap targets and task flows.
+            </p>
+          </header>
 
-        {/* Task Cards */}
-        <section aria-label="Accessibility tasks" className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
-            <CardHeader className="p-5">
-              <CardTitle className="text-lg font-semibold">Color & Text Contrast Check</CardTitle>
-              <CardDescription className="mt-1 text-sm">
-                Test your text and background colors against common contrast guidelines so more
-                people can read comfortably.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="p-5 pt-0">
-              <Link to="/arcade/contrast-quest">
-                <Button 
-                  variant="outline"
-                  className="w-full rounded-xl"
-                  aria-label="Test your accessibility with Contrast Check"
-                >
-                  Test your accessibility
-                </Button>
+          <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {/* Task 1: Contrast */}
+            <article className="glass-card">
+              <h2 className="text-lg font-semibold">Color & Text Contrast Check</h2>
+              <p className="mt-1 text-sm text-slate-200/80">
+                Test your text and background colors so more people can read comfortably,
+                even on older screens or in bright light.
+              </p>
+              <Link
+                to="/arcade/contrast-quest"
+                className="mt-4 inline-flex items-center rounded-xl bg-slate-50/10 px-4 py-2 text-sm font-medium text-slate-50 hover:bg-slate-50/20 focus:outline-none focus:ring-2 focus:ring-sky-400"
+              >
+                Test your accessibility
               </Link>
-            </CardContent>
-          </Card>
+            </article>
 
-          <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
-            <CardHeader className="p-5">
-              <CardTitle className="text-lg font-semibold">Tap Target Comfort Check</CardTitle>
-              <CardDescription className="mt-1 text-sm">
-                Adjust button size to feel the difference once targets reach around 44–48 px on
-                touch screens.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="p-5 pt-0">
-              <Link to="/arcade/tap-target-tuner">
-                <Button 
-                  variant="outline"
-                  className="w-full rounded-xl"
-                  aria-label="Try the Tap Target task"
-                >
-                  Try this task
-                </Button>
+            {/* Task 2: Tap targets */}
+            <article className="glass-card">
+              <h2 className="text-lg font-semibold">Tap Target Comfort Check</h2>
+              <p className="mt-1 text-sm text-slate-200/80">
+                Adjust button size and feel the difference once targets reach around
+                44–48 px on touch screens.
+              </p>
+              <Link
+                to="/arcade/tap-target-tuner"
+                className="mt-4 inline-flex items-center rounded-xl bg-slate-50/10 px-4 py-2 text-sm font-medium text-slate-50 hover:bg-slate-50/20 focus:outline-none focus:ring-2 focus:ring-sky-400"
+              >
+                Try this task
               </Link>
-            </CardContent>
-          </Card>
+            </article>
 
-          <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
-            <CardHeader className="p-5">
-              <CardTitle className="text-lg font-semibold">Task Flow Clarity Check</CardTitle>
-              <CardDescription className="mt-1 text-sm">
-                Arrange a simple shopping journey and see how flow order affects clarity and
-                user confidence.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="p-5 pt-0">
-              <Link to="/arcade/story-flow-shuffle">
-                <Button 
-                  variant="outline"
-                  className="w-full rounded-xl"
-                  aria-label="Try the Task Flow task"
-                >
-                  Try this task
-                </Button>
+            {/* Task 3: Task flow */}
+            <article className="glass-card md:col-span-2 xl:col-span-1">
+              <h2 className="text-lg font-semibold">Task Flow Clarity Check</h2>
+              <p className="mt-1 text-sm text-slate-200/80">
+                Arrange a simple shopping journey and see how flow order affects clarity
+                and user confidence.
+              </p>
+              <Link
+                to="/arcade/story-flow-shuffle"
+                className="mt-4 inline-flex items-center rounded-xl bg-slate-50/10 px-4 py-2 text-sm font-medium text-slate-50 hover:bg-slate-50/20 focus:outline-none focus:ring-2 focus:ring-sky-400"
+              >
+                Try this task
               </Link>
-            </CardContent>
-          </Card>
-        </section>
-      </main>
+            </article>
+          </section>
 
-      {/* Privacy Footer */}
-      <footer 
-        className="mt-10 pb-8 text-center text-xs text-muted-foreground px-4"
-        role="contentinfo"
-      >
-        <p>
-          No logins, no tracking — these tasks run in the browser so you can focus on how the
-          experience feels for different users.
-        </p>
-      </footer>
-    </div>
+          <footer className="text-[11px] text-slate-400">
+            No logins, no tracking — these tasks run in the browser so you can focus on
+            how the experience feels for different users.
+          </footer>
+        </div>
+
+        {/* Right: use dead space on larger screens */}
+        <aside className="hidden w-full max-w-sm space-y-4 rounded-3xl border border-slate-700/60 bg-slate-900/60 p-5 shadow-[0_0_40px_rgba(15,23,42,0.75)] backdrop-blur-xl lg:block">
+          <h2 className="text-sm font-semibold text-slate-100">
+            What these tasks show about my practice
+          </h2>
+          <ul className="mt-2 space-y-2 text-xs text-slate-300">
+            <li>• I design with WCAG-style contrast and readability in mind.</li>
+            <li>• I consider thumb ergonomics and platform touch guidelines.</li>
+            <li>• I think in flows and journeys, not just single screens.</li>
+            <li>• I build interactive tools to help others feel accessibility issues.</li>
+          </ul>
+          <div className="mt-4 rounded-2xl border border-sky-500/40 bg-sky-500/10 px-3 py-3 text-xs text-sky-100">
+            Recruiter view: this isn't a "game" — it's an accessibility lab that
+            demonstrates product thinking, interaction design, and teaching mindset.
+          </div>
+        </aside>
+      </div>
+    </main>
   );
 };
 
