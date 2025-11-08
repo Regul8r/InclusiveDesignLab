@@ -8,90 +8,69 @@ const Arcade = () => {
     <div className="min-h-screen bg-background">
       <main className="container mx-auto px-4 py-8 md:py-12 max-w-4xl">
         {/* Hero Section */}
-        <header className="text-center mb-12" role="banner">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Design Arcade by Prototykes
+        <header className="mb-10" role="banner">
+          <h1 className="text-3xl font-bold text-foreground mb-2">
+            Are You Designing With Everyone in Mind?
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground">
-            Learn design by playing!
+          <p className="text-sm text-muted-foreground">
+            Use these short tasks to test how your interfaces feel in real-life conditions —
+            from tap targets to task flows.
           </p>
         </header>
 
-        {/* Game Cards */}
-        <section aria-label="Available games">
-          <h2 className="text-2xl font-semibold mb-6 text-foreground">Games</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="hover:shadow-md transition-shadow">
-              <CardHeader>
-                <CardTitle className="text-xl">Contrast Quest</CardTitle>
-                <CardDescription>
-                  Master color contrast and accessibility by choosing color pairs that pass WCAG standards
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Link to="/arcade/contrast-quest">
-                  <Button 
-                    size="lg" 
-                    className="w-full"
-                    aria-label="Start playing Contrast Quest"
-                  >
-                    Play Now
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
+        {/* Task Cards */}
+        <section aria-label="Accessibility tasks" className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
+            <CardHeader className="p-5">
+              <CardTitle className="text-xl">Tap Target Comfort Check</CardTitle>
+              <CardDescription className="mt-1 text-sm">
+                See whether your buttons meet recommended touch sizes (around 44–48 px) so people
+                don't have to "aim" with their thumbs.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-5 pt-0">
+              <Link to="/arcade/tap-target-tuner">
+                <Button 
+                  variant="outline"
+                  className="w-full rounded-xl"
+                  aria-label="Test your accessibility with Tap Target Tuner"
+                >
+                  Test your accessibility
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
 
-            <Card className="hover:shadow-md transition-shadow">
-              <CardHeader>
-                <CardTitle className="text-xl">Tap Target Tuner</CardTitle>
-                <CardDescription>
-                  Master mobile touch targets: size buttons to 44×44px minimum
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Link to="/arcade/tap-target-tuner">
-                  <Button 
-                    size="lg" 
-                    className="w-full"
-                    aria-label="Play Tap Target Tuner"
-                  >
-                    Play Now
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-md transition-shadow">
-              <CardHeader>
-                <CardTitle className="text-xl">Story Flow Shuffle</CardTitle>
-                <CardDescription>
-                  Arrange screens in logical order to complete user tasks
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Link to="/arcade/story-flow-shuffle">
-                  <Button 
-                    size="lg" 
-                    className="w-full"
-                    aria-label="Play Story Flow Shuffle"
-                  >
-                    Play Now
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-          </div>
+          <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
+            <CardHeader className="p-5">
+              <CardTitle className="text-xl">Task Flow Clarity Check</CardTitle>
+              <CardDescription className="mt-1 text-sm">
+                Arrange a simple shopping flow and see how small ordering changes can confuse or
+                support users.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-5 pt-0">
+              <Link to="/arcade/story-flow-shuffle">
+                <Button 
+                  variant="outline"
+                  className="w-full rounded-xl"
+                  aria-label="Try the Task Flow Clarity Check"
+                >
+                  Try this task
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
         </section>
       </main>
 
       {/* Privacy Footer */}
       <footer 
-        className="mt-16 pb-8 text-center text-sm text-muted-foreground px-4"
+        className="mt-10 pb-8 text-center text-xs text-muted-foreground px-4"
         role="contentinfo"
       >
         <p>
-          🔒 We don't collect personal data. Your progress is saved on this device.
+          No logins, no tracking — these tasks run in the browser so you can focus on how the experience feels.
         </p>
       </footer>
     </div>
