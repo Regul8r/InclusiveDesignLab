@@ -1,32 +1,8 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { getProgress, getLevel, isLocalStorageAvailable } from "@/lib/xp";
-import ProgressBar from "@/components/ProgressBar";
 
 const Arcade = () => {
-  const [progress, setProgress] = useState({ xp: 0 });
-  const [storageAvailable, setStorageAvailable] = useState(true);
-
-  useEffect(() => {
-    setStorageAvailable(isLocalStorageAvailable());
-    setProgress(getProgress());
-
-    // Refresh progress when page becomes visible (user navigates back)
-    const handleVisibilityChange = () => {
-      if (!document.hidden) {
-        setProgress(getProgress());
-      }
-    };
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
-  }, []);
-
-  const level = getLevel(progress.xp);
 
   return (
     <div className="min-h-screen bg-background">
@@ -40,38 +16,6 @@ const Arcade = () => {
             Learn design by playing!
           </p>
         </header>
-
-        {/* Progress Summary */}
-        <section 
-          className="mb-8 p-6 bg-card border border-border rounded-lg shadow-sm"
-          aria-label="Your progress"
-        >
-          <div className="space-y-4">
-            {/* Level & Stats */}
-            <div className="flex flex-wrap gap-6 justify-center items-center">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-primary">Level {level}</div>
-                <div className="text-sm text-muted-foreground">{progress.xp} XP</div>
-              </div>
-            </div>
-
-            {/* Progress Bar to Next Level */}
-            <div className="max-w-md mx-auto">
-              <ProgressBar xp={progress.xp} />
-            </div>
-
-            <p className="text-xs text-center text-muted-foreground">
-              Complete quests to earn XP and level up!
-            </p>
-
-            {/* Storage Warning */}
-            {!storageAvailable && (
-              <p className="text-xs text-center text-destructive bg-destructive/10 p-2 rounded">
-                ⚠️ Progress will reset when you close the tab.
-              </p>
-            )}
-          </div>
-        </section>
 
         {/* Game Cards */}
         <section aria-label="Available games">
