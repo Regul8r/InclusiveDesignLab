@@ -88,12 +88,12 @@ const StoryFlowShuffle = () => {
   };
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-50">
-      <div className="mx-auto max-w-5xl px-4 py-10">
-        <nav className="mb-6">
+    <main className="min-h-screen bg-slate-50 text-slate-900">
+      <div className="mx-auto max-w-3xl px-4 py-10 space-y-8">
+        <nav>
           <Link
             to="/arcade"
-            className="inline-flex items-center rounded-lg bg-slate-50/10 px-4 py-2 text-sm font-medium text-slate-50 hover:bg-slate-50/20 focus:outline-none focus:ring-2 focus:ring-sky-400"
+            className="inline-flex items-center rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-900"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to tasks
@@ -101,18 +101,18 @@ const StoryFlowShuffle = () => {
         </nav>
 
         {/* Header */}
-        <header className="mb-8 space-y-1">
+        <header className="space-y-1">
           <h1 className="text-2xl font-bold">
             Task Flow Clarity Check
           </h1>
-          <p className="text-sm text-slate-300">
+          <p className="text-sm text-slate-600">
             Reorder the screens to match how a person would actually move through this journey —
             from landing on Home to confirming their action.
           </p>
         </header>
 
         {/* Draggable Cards */}
-        <section className="mb-6" aria-label="Screen cards">
+        <section aria-label="Screen cards">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
             {cards.map((screen, index) => {
               const Icon = screen.icon;
@@ -123,20 +123,20 @@ const StoryFlowShuffle = () => {
                   onDragStart={() => handleDragStart(index)}
                   onDragOver={handleDragOver}
                   onDrop={() => handleDrop(index)}
-                  className="glass-card cursor-move hover:shadow-[0_0_60px_rgba(15,23,42,0.9)] transition-shadow relative"
+                  className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm cursor-move hover:shadow-md transition-shadow relative"
                   role="article"
                   aria-label={`${screen.label} card, position ${index + 1}`}
                 >
                   <div className="absolute top-2 left-2 text-xs font-bold text-slate-400">
                     {index + 1}
                   </div>
-                  <Icon className="w-8 h-8 mx-auto text-sky-400 mb-2" aria-hidden="true" />
+                  <Icon className="w-8 h-8 mx-auto text-slate-900 mb-2" aria-hidden="true" />
                   <h3 className="text-center text-base font-semibold">{screen.label}</h3>
                   
                   {/* Keyboard controls */}
                   <div className="pt-3 flex gap-2 justify-center">
                     <button
-                      className="rounded-lg border border-slate-600 bg-slate-800/50 px-3 py-1 text-sm hover:bg-slate-700/50 disabled:opacity-30 disabled:cursor-not-allowed"
+                      className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1 text-sm hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed"
                       onClick={() => moveCard(index, "left")}
                       disabled={index === 0}
                       aria-label={`Move ${screen.label} left`}
@@ -144,7 +144,7 @@ const StoryFlowShuffle = () => {
                       <ChevronLeft className="w-4 h-4" />
                     </button>
                     <button
-                      className="rounded-lg border border-slate-600 bg-slate-800/50 px-3 py-1 text-sm hover:bg-slate-700/50 disabled:opacity-30 disabled:cursor-not-allowed"
+                      className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1 text-sm hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed"
                       onClick={() => moveCard(index, "right")}
                       disabled={index === cards.length - 1}
                       aria-label={`Move ${screen.label} right`}
@@ -160,7 +160,7 @@ const StoryFlowShuffle = () => {
           {/* Check Button */}
           <div className="text-center">
             <button
-              className="rounded-xl bg-sky-500 px-6 py-3 text-sm font-semibold text-slate-950 hover:bg-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400"
+              className="rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900"
               onClick={handleCheckFlow}
             >
               Check Flow
@@ -170,10 +170,10 @@ const StoryFlowShuffle = () => {
 
         {/* Result Feedback */}
         {checked && (
-          <section aria-live="polite" className="mb-6">
+          <section aria-live="polite">
             {isPassing ? (
               <div className="space-y-4">
-                <div className="p-4 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 text-emerald-200">
+                <div className="p-4 rounded-2xl border border-emerald-300 bg-emerald-50 text-emerald-900">
                   <div className="flex items-center gap-2 mb-2">
                     <CheckCircle className="h-5 w-5" />
                     <h3 className="font-semibold">Perfect! Flow Completed</h3>
@@ -186,15 +186,15 @@ const StoryFlowShuffle = () => {
                 </div>
 
                 {/* Learning Note */}
-                <div className="rounded-2xl border border-slate-700/60 bg-slate-900/70 p-4 text-sm text-slate-200">
+                <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-600">
                   <p>
-                    <strong className="text-slate-100">📚 Design Insight:</strong> Task flows map the steps users take to complete a goal. 
+                    <strong className="text-slate-900">📚 Design Insight:</strong> Task flows map the steps users take to complete a goal. 
                     Good flows minimize friction, follow logical sequences, and match mental models.
                   </p>
                 </div>
               </div>
             ) : (
-              <div className="p-4 rounded-2xl border border-rose-500/40 bg-rose-500/10 text-rose-200">
+              <div className="p-4 rounded-2xl border border-rose-300 bg-rose-50 text-rose-900">
                 <div className="flex items-center gap-2 mb-2">
                   <AlertCircle className="h-5 w-5" />
                   <h3 className="font-semibold">Flow Needs Adjustment</h3>
@@ -210,9 +210,9 @@ const StoryFlowShuffle = () => {
         )}
 
         {/* Hints */}
-        <section className="rounded-2xl border border-slate-700/60 bg-slate-900/70 p-6">
+        <section className="rounded-2xl border border-slate-200 bg-white p-6">
           <h2 className="text-lg font-semibold mb-3">💡 Hints</h2>
-          <ul className="space-y-2 text-sm text-slate-300">
+          <ul className="space-y-2 text-sm text-slate-600">
             <li>• Start with the entry point users typically see first</li>
             <li>• Results should appear before a Detail page</li>
             <li>• Users add items to cart before confirming their order</li>
