@@ -3,7 +3,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
 import Arcade from "./pages/Arcade";
 import ContrastQuest from "./pages/ContrastQuest";
 import TapTargetTuner from "./pages/TapTargetTuner";
@@ -19,8 +18,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/arcade" element={<Arcade />} />
+          <Route path="/" element={<Arcade />} />
           <Route path="/contrast-quest" element={<ContrastQuest />} />
           <Route path="/tap-target-tuner" element={<TapTargetTuner />} />
           <Route path="/story-flow-shuffle" element={<StoryFlowShuffle />} />
