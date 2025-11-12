@@ -26,7 +26,7 @@ const Arcade = () => {
               even on older screens or in bright light.
             </p>
             <Link
-              to="/arcade/contrast-quest"
+              to="/contrast-quest"
               className="mt-4 inline-flex items-center rounded-xl border border-slate-900 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-slate-900"
             >
               Test your accessibility
@@ -41,7 +41,7 @@ const Arcade = () => {
               44–48 px on touch screens.
             </p>
             <Link
-              to="/arcade/tap-target-tuner"
+              to="/tap-target-tuner"
               className="mt-4 inline-flex items-center rounded-xl border border-slate-900 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-slate-900"
             >
               Try this task
@@ -56,7 +56,7 @@ const Arcade = () => {
               and user confidence.
             </p>
             <Link
-              to="/arcade/story-flow-shuffle"
+              to="/story-flow-shuffle"
               className="mt-4 inline-flex items-center rounded-xl border border-slate-900 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-slate-900"
             >
               Try this task

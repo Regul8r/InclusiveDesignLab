@@ -21,9 +21,9 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/arcade" element={<Arcade />} />
-          <Route path="/arcade/contrast-quest" element={<ContrastQuest />} />
-          <Route path="/arcade/tap-target-tuner" element={<TapTargetTuner />} />
-          <Route path="/arcade/story-flow-shuffle" element={<StoryFlowShuffle />} />
+          <Route path="/contrast-quest" element={<ContrastQuest />} />
+          <Route path="/tap-target-tuner" element={<TapTargetTuner />} />
+          <Route path="/story-flow-shuffle" element={<StoryFlowShuffle />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
